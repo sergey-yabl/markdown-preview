@@ -173,6 +173,40 @@ This web site is using ${"`"}markedjs/marked${"`"}.
             .replace(/'/g, '&#39;');
     };
 
+    let isAllowedResourceUrl = (value) => {
+        const url = value.trim();
+        if (!url || url.startsWith('//')) {
+            return false;
+        }
+
+        if (/^data:/i.test(url)) {
+            return /^data:image\/(png|jpeg|gif|webp|avif)(?:;[^,]*)?,/i.test(url);
+        }
+
+        return !/^[a-z][a-z0-9+.-]*:/i.test(url);
+    };
+
+    const resourceTags = new Set(['IMG', 'VIDEO', 'AUDIO', 'SOURCE', 'TRACK']);
+    const svgResourceAttributes = new Set(['href', 'xlink:href']);
+
+    DOMPurify.addHook('uponSanitizeAttribute', (currentNode, data) => {
+        const tagName = currentNode.tagName.toUpperCase();
+        const attributeName = data.attrName.toLowerCase();
+
+        if ((tagName === 'A' || tagName === 'AREA') && attributeName === 'href') {
+            return;
+        }
+
+        const isMediaResource = resourceTags.has(tagName)
+            && (attributeName === 'src' || (tagName === 'VIDEO' && attributeName === 'poster'));
+        const isSvgResource = currentNode.namespaceURI === 'http://www.w3.org/2000/svg'
+            && svgResourceAttributes.has(attributeName);
+
+        if ((isMediaResource || isSvgResource) && !isAllowedResourceUrl(data.attrValue)) {
+            data.keepAttr = false;
+        }
+    });
+
     let createMarkedRenderer = () => {
         const renderer = new marked.Renderer();
         const renderCode = renderer.code.bind(renderer);
@@ -272,7 +306,10 @@ This web site is using ${"`"}markedjs/marked${"`"}.
             renderer
         };
         let html = marked.parse(markdown, options);
-        let sanitized = DOMPurify.sanitize(html);
+        let sanitized = DOMPurify.sanitize(html, {
+            FORBID_TAGS: ['iframe', 'object', 'embed', 'style'],
+            FORBID_ATTR: ['style', 'srcset']
+        });
         document.querySelector('#output').innerHTML = sanitized;
         scheduleMermaidRender();
     };
