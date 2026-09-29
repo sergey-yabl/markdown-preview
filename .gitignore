@@ -1,10 +1,6 @@
 .DS_Store
 .firebaserc
 
-AUDIT*.md
-VERIFY-*.md
-REVIEW-*.md
-
 # Logs
 logs
 *.log

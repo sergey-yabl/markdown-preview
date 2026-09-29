@@ -1,7 +1,7 @@
 {
-  "name": "markdown-live-preview",
+  "name": "markdown-preview",
   "version": "1.0.0",
-  "description": "[Markdown Live Preview](https://markdownlivepreview.com/) is a tiny web tool to preview Markdown formatted text.",
+  "description": "[Markdown Preview](https://markdown.lan/) is a tiny local tool to preview Markdown formatted text.",
   "scripts": {
     "update:css-version": "node scripts/update-css-version.mjs",
     "dev": "vite",
@@ -10,15 +10,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/tanabe/markdown-live-preview.git"
+    "url": "git+https://github.com/sergey-yabl/markdown-preview.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/tanabe/markdown-live-preview/issues"
+    "url": "https://github.com/sergey-yabl/markdown-preview/issues"
   },
-  "homepage": "https://github.com/tanabe/markdown-live-preview#readme",
+  "homepage": "https://github.com/sergey-yabl/markdown-preview#readme",
   "devDependencies": {
     "vite": "^6.4.3"
   },

@@ -74,7 +74,7 @@ _You **can** combine them_
 
 ## Links
 
-You may be using [Markdown Live Preview](https://markdownlivepreview.com/).
+You may be using [Markdown Preview](https://markdown.lan/).
 
 ## Blockquotes
 
@@ -350,7 +350,7 @@ This web site is using ${"`"}markedjs/marked${"`"}.
         });
     };
 
-    // ----- preview CSS loader (switch github-markdown css) -----
+    // ----- preview CSS loader -----
     const PREVIEW_CSS_LIGHT = 'css/github-markdown-light.css?v=a1a198514565';
     const PREVIEW_CSS_DARK = 'css/github-markdown-dark_dimmed.css?v=5d3f5d9d207c';
 
