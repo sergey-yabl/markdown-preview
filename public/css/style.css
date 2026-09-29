@@ -323,6 +323,15 @@ footer {
   background: #666;
 }
 
+.split-container.reader-mode .editor-pane,
+.split-container.reader-mode .split-divider {
+  display: none;
+}
+
+.split-container.reader-mode .preview-pane {
+  width: 100% !important;
+}
+
 /* Dark theme overrides */
 [data-theme="dark"] html, [data-theme="dark"] body {
   background-color: #212830;

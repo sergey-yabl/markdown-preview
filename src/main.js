@@ -11,6 +11,7 @@ const init = () => {
     const localStorageKey = 'last_state';
     const localStorageScrollBarKey = 'scroll_bar_settings';
     const localStorageThemeKey = 'theme_settings';
+    const localStorageReaderModeKey = 'reader_mode';
     const confirmationMessage = 'Are you sure you want to reset? Your changes will be lost.';
     let mermaidRenderTimer = null;
     let mermaidRenderVersion = 0;
@@ -410,6 +411,21 @@ This web site is using ${"`"}markedjs/marked${"`"}.
         });
     };
 
+    let initReaderModeToggle = (settings) => {
+        let checkbox = document.querySelector('#reader-checkbox');
+        let container = document.querySelector('#container');
+        if (!checkbox || !container) return;
+
+        checkbox.checked = settings;
+        container.classList.toggle('reader-mode', settings);
+
+        checkbox.addEventListener('change', (event) => {
+            let checked = event.currentTarget.checked;
+            container.classList.toggle('reader-mode', checked);
+            saveReaderMode(checked);
+        });
+    };
+
     let enableScrollBarSync = () => {
         scrollBarSync = true;
     };
@@ -587,6 +603,14 @@ This web site is using ${"`"}markedjs/marked${"`"}.
         safeSetLocalStorage('com.markdownlivepreview_theme', settings ? 'dark' : 'light');
     };
 
+    let loadReaderMode = () => {
+        return safeGetLocalStorage(`${localStorageNamespace}:${localStorageReaderModeKey}`) === 'true';
+    };
+
+    let saveReaderMode = (settings) => {
+        safeSetLocalStorage(`${localStorageNamespace}:${localStorageReaderModeKey}`, String(settings));
+    };
+
     let setupDivider = () => {
         let lastLeftRatio = 0.5;
         const divider = document.getElementById('split-divider');
@@ -690,6 +714,7 @@ This web site is using ${"`"}markedjs/marked${"`"}.
     initThemeToggle(themeSettings);
 
     setupDivider();
+    initReaderModeToggle(loadReaderMode());
 };
 
 window.addEventListener("load", () => {
